@@ -104,7 +104,6 @@ do
                         fi
 			;;
 		6)
-			5)
                         echo -n "Enter File Name:"
                         read fname
                         if [ -e $fname ]
@@ -115,23 +114,14 @@ do
                                 flag=$?
                                 if [ $flag -eq 0 ]
                                 then
-                                        echo "Enter the new Roll number and Name of student"
-                                        read newroll newname
-                                        grep -w "$newroll" $fname
-                                        flag=$?
-                                        if [ flag -eq 0 ]
-                                        then
-                                                echo "Record with the new entered roll number already exists"
-                                        else
+                                      
                                                 grep -v "$roll" $fname >> temp
                                                 rm $fname
-                                                
+                                                ls
                                                 cp temp $fname
-                                                
+                                                ls
                                                 rm temp
-                                                
-                                                echo $newroll $newname >> $fname
-                                        fi
+                                        
                                 else
                                         echo "Record NOT found"
                                 fi
