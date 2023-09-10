@@ -4,7 +4,8 @@
 #include<sys/types.h>
 #include<sys/wait.h>
 #include<unistd.h>
-
+void asc(int a[],int n);
+void dsc(int a[],int n);
 int main(){
 int n=5;
 int a[5]={2,5,3,7,1};
@@ -42,10 +43,10 @@ switch(pid){
 }
 return 0;
 }
-void asc(int a*,int n){
+void asc(int a[],int n){
 int i,j,temp;
 for(i=0;i<n;i++){
-for(j=i+1,j<n;j++){
+for(j=i+1;j<n;j++){
 if(a[i]>a[j]){
 temp=a[i];
 a[i]=a[j];
@@ -58,10 +59,10 @@ for(i=0;i<n;i++)
 printf("%d",a[i]);
 printf("\n");
 }
-void dsc(int a*,int n){
+void dsc(int a[],int n){
 int i,j,temp;
 for(i=0;i<n;i++){
-for(j=i+1,j<n;j++){
+for(j=i+1;j<n;j++){
 if(a[i]<a[j]){
 temp=a[i];
 a[i]=a[j];
