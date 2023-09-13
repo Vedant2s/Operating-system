@@ -51,9 +51,13 @@ void calculate(int n){
                 else
                         p[i].tt=p[i].bt+(2*p[i-1].tt-p[i].at);
         }
+	double avgtt=0,avgwt=0;
 	for(int i=0;i<n;i++){
 		p[i].tt=p[i].tt-p[i].at;
 		p[i].wt=p[i].tt-p[i].bt;
+		avgtt+=p[i].tt;
+		avgwt+=p[i].wt;
 	}
+	printf("Average TT is %f and Average WT is %f\n",avgtt/n,avgwt/n);
 
 }
