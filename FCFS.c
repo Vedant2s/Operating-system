@@ -46,8 +46,11 @@ void sort(int n){
 void calculate(int n){
 	p[0].tt=p[0].at+p[0].bt;
 	for(int i=1;i<n;i++){
-		p[i].tt=p[i].bt+p[i-1].tt;
-	}
+                if(p[i].at<p[i-1].tt)
+                        p[i].tt=p[i].bt+p[i-1].tt;
+                else
+                        p[i].tt=p[i].bt+(2*p[i-1].tt-p[i].at);
+        }
 	for(int i=0;i<n;i++){
 		p[i].tt=p[i].tt-p[i].at;
 		p[i].wt=p[i].tt-p[i].bt;
