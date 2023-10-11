@@ -30,7 +30,7 @@ int main(){
 		vowel[0]='\0';
 		wordcnt=1;
 		for(i=0;i<num;i++){
-		if(s[i]=='a'||s[i]=='e'||s[i]=='i'||s[i]=='o'||s[i]=='u'||)
+		if(s[i]=='a'||s[i]=='e'||s[i]=='i'||s[i]=='o'||s[i]=='u')
 		{
 			vowel[k]=s[i];
 			k++;
