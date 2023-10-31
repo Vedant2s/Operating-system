@@ -15,10 +15,10 @@ int main(){
 	int num,fd1,fd2,byt;
 	mknod(FIFO_NAME1,S_IFIFO | 0666,0);
 	mknod(FIFO_NAME2,S_IFIFO | 0666,0);
-	printf("waiting fore theconsumer.....\n");
+	printf("waiting for the consumer.....\n");
 	fd1=open(FIFO_NAME1,O_WRONLY);	
 	fd2=open(FIFO_NAME2,O_RDONLY);
-	printf("got a consumer type some stuff");
+	printf("got a consumer, type some stuff");
 	gets(s1);
 	if((num=write(fd1,s1,strlen(s1)))==-1)
 		perror("write");
