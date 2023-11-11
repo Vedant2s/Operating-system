@@ -11,47 +11,78 @@
 #define FIFO_NAME2 "com_pipe2"
 
 int main(){
-	char s[300],vowel[20],send[50];
-	int num, fd1,fd2 ,sig,k=0,i,wordcnt=1,charcnt=0,linecnt=0;
-	FILE *fp;
-	fp=fopen("fifo.txt","w");
-	mknod(FIFO_NAME1,S_IFIFO | 0666,0);
-	mknod(FIFO_NAME2,S_IFIFO | 0666,0);
-	printf("waiting for producers.....\n");
-	fd1=open(FIFO_NAME1,O_RDONLY);
-	fd2=open(FIFO_NAME2,O_WRONLY);
-	printf("got a producer\n");
-	if((num=read(fd1,s,300))==-1)
+	// Create a character array to store the received data
+	char s[300], vowel[20], send[50];
+
+	// Declare and initialize variables
+	int num, fd1, fd2, sig, k = 0, i, wordcnt = 1, charcnt = 0, linecnt = 0;
+
+	// Open the read-only named pipe
+	fd1 = open(FIFO_NAME1, O_RDONLY);
+	if (fd1 == -1) {
+		perror("open");
+		exit(1);
+	}
+
+	// Open the write-only named pipe
+	fd2 = open(FIFO_NAME2, O_WRONLY);
+	if (fd2 == -1) {
+		perror("open");
+		exit(1);
+	}
+
+	// Read data from the pipe
+	num = read(fd1, s, 300);
+	if (num == -1) {
 		perror("read");
-	else{
-		s[num]='\0';
-		printf("tick: read %d bytes: \%s\"\n",num,s);
-		k=0;
-		vowel[0]='\0';
-		wordcnt=1;
-		for(i=0;i<num;i++){
-		if(s[i]=='a'||s[i]=='e'||s[i]=='i'||s[i]=='o'||s[i]=='u')
-		{
-			vowel[k]=s[i];
+		exit(1);
+	}
+
+	// Add a null terminator to the end of the string
+	s[num] = '\0';
+
+	// Print the received data to the console
+	printf("tick: read %d bytes: \"%s\"\n", num, s);
+
+	// Initialize the vowel array
+	vowel[0] = '\0';
+
+	// Count the number of words, vowels, characters, and lines in the sentence
+	for (i = 0; i < num; i++) {
+		if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u') {
+			vowel[k] = s[i];
 			k++;
 		}
-		if(s[i]!=' '&&s[i]!=' ')
-		{
+
+		if (s[i] != ' ' && s[i] != '\0') {
 			wordcnt++;
 		}
-		if(s[i]=='.'&&(s[i+1]==' '||s[i+1]=='\0'))
-			linecnt++;
-		else if(s[i]!='.' && s[i]!=' ')
-			charcnt++;
 
+		if (s[i] == '.' && (s[i + 1] == ' ' || s[i + 1] == '\0')) {
+			linecnt++;
+		} else if (s[i] != '.' && s[i] != ' ') {
+			charcnt++;
 		}
-		vowel[k]='\0';
-		sprintf(send,"for the given sentence the word count is %d\n vowel cnt 9is %d \n character count is %d \nlines are %d\n ",wordcnt,k,charcnt,linecnt);
-		fprintf(fp," %s",send);
-		if(sig=write(fd2,send,strlen(send))!=-1)
-			printf("\nwriten successfully to file 2\n");
-		else
-			printf("error in writting to file2\n");
 	}
+
+	// Add a null terminator to the end of the vowel array
+	vowel[k] = '\0';
+
+	// Create a string to send to the producer with the results of the analysis
+	sprintf(send, "for the given sentence the word count is %d\n vowel cnt is %d \n character count is %d \nlines are %d\n", wordcnt, k, charcnt, linecnt);
+
+	// Write the results to the pipe
+	sig = write(fd2, send, strlen(send));
+	if (sig == -1) {
+		perror("write");
+		exit(1);
+	} else {
+		printf("\nwriten successfully to file 2\n");
+	}
+
+	// Close the pipes
+	close(fd1);
+	close(fd2);
+
 	return 0;
 }
