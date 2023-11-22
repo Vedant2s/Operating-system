@@ -74,7 +74,7 @@ void calculate(int n) {
         if (p[i].at < p[i - 1].tt)
             p[i].tt = p[i].bt + p[i - 1].tt;
         else
-            p[i].tt = p[i].bt + (2 * p[i - 1].tt - p[i].at);
+            p[i].tt = p[i].bt + (3 * p[i - 1].tt - p[i].at);
     }
 
     // Calculate turnaround time and waiting time, and update averages
