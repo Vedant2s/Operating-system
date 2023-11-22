@@ -57,7 +57,7 @@ int main() {
             pageFaults++;
         }
 
-        printf("Page %d -> ", i);
+        printf("Page %d -> ", i+1);
         displayFrames(frames, frameSize);
     }
 
